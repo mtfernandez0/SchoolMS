@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>School M.S.</title>
+    <link th:href="@{/css/styles.css}" rel="stylesheet"/>
+</head>
+<body>
+    <div class="navbar">
+        <div>
+            <h3>Classrooms</h3>
+        </div>
+        <h3>User logged</h3>
+    </div>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Classroom Name</th>
+                <th>Capacity</th>
+                <th>Available</th>
+                <th>Professor</th>
+                <th>Available at</th>
+                <th>Modify</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each = "classroom: ${classrooms}" class="insert">
+                <div th:insert="${toEdit} != ${classroom.classroomName} ?
+                    ~{fragments/classroom :: static(classroom = ${classroom})} :
+                    ~{fragments/classroom :: edit(classroom = ${classroom})}">
+                </div>
+            </tr>
+            <div th:if="!${enableEdit}">
+                <tr th:insert="~{fragments/classroom.html :: add}" class="insert"></tr>
+            </div>
+        </tbody>
+    </table>
+</body>
+</html>
