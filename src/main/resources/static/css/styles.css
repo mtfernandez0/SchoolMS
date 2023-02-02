@@ -64,8 +64,8 @@ body{
 }
 
 .label-logout-form{
-    width: 100%;
     cursor: pointer;
+    width: 100%;
     padding-left: 17px;
     color: #adb5bd;
 }
