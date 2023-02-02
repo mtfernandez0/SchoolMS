@@ -1,40 +1,64 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" data-bs-theme="dark">
 <head>
     <meta charset="UTF-8">
     <title>School M.S.</title>
     <link th:href="@{/css/styles.css}" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
+          crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+            crossorigin="anonymous"></script>
 </head>
 <body>
-    <div class="navbar">
-        <div>
-            <h3>Classrooms</h3>
-        </div>
-        <h3>User logged</h3>
+<div class="navbar">
+    <div class="navbar-item">
+        <h3>Classrooms</h3>
     </div>
+    <div class="dropdown navbar-item">
+        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            User
+        </button>
+        <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">My account</a></li>
+            <li><div class="dropdown-item form-container" style="padding: 0">
+                <form th:action="@{/logout}" method="post">
+                    <label class="label-logout-form">
+                        <input hidden="hidden" type="submit"/>
+                        Logout
+                    </label>
+                </form>
+            </div></li>
+        </ul>
+    </div>
+</div>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Classroom Name</th>
-                <th>Capacity</th>
-                <th>Available</th>
-                <th>Professor</th>
-                <th>Available at</th>
-                <th>Modify</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each = "classroom: ${classrooms}" class="insert">
-                <div th:insert="${toEdit} != ${classroom.classroomName} ?
+<table class="table">
+    <thead>
+    <tr>
+        <th>Classroom Name</th>
+        <th>Capacity</th>
+        <th>Available</th>
+        <th>Professor</th>
+        <th>Available at</th>
+        <div th:if="${isDirector}">
+            <th>Modify</th>
+        </div>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each = "classroom: ${classrooms}" class="insert">
+        <div th:insert="${toEdit} != ${classroom.classroomName} ?
                     ~{fragments/classroom :: static(classroom = ${classroom})} :
                     ~{fragments/classroom :: edit(classroom = ${classroom})}">
-                </div>
-            </tr>
-            <div th:if="!${enableEdit}">
-                <tr th:insert="~{fragments/classroom.html :: add}" class="insert"></tr>
-            </div>
-        </tbody>
-    </table>
+        </div>
+    </tr>
+    <div th:if="!${enableEdit} and ${isDirector}">
+        <tr th:insert="~{fragments/classroom.html :: add}" class="insert"></tr>
+    </div>
+    </tbody>
+</table>
 </body>
 </html>

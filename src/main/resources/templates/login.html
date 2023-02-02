@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
+          crossorigin="anonymous">
+</head>
+<body>
+    <div class="container text-center p-3 rounded">
+        <form th:action="@{/login}" method="post">
+            <div th:if="${param.error}">
+                <div class="row justify-content-center">
+                    <p class="text-bg-danger p-3 rounded" style="max-width: 18rem;">Invalid username or password</p>
+                </div>
+            </div>
+            <div th:if="${param.logout}">
+                <div class="row justify-content-center">
+                    <p class="alert alert-secondary p-3 rounded" style="max-width: 18rem;">You have been logged out</p>
+                </div>
+            </div>
+            <div class="row mb-3 fs-4">
+                <label for="username" class="col-sm-2 col-form-label">Username</label>
+                <div class="col-sm-10">
+                    <input type="text" id="username" name="username" class="form-control" autofocus required/>
+                </div>
+            </div>
+            <div class="row mb-3 fs-4">
+                <label for="password" class="col-sm-2 col-form-label">Password</label>
+                <div class="col-sm-10">
+                    <input type="password" id="password" name="password" class="form-control" required/>
+                </div>
+            </div>
+            <div class="col-sm-10 fs-4">
+                <label for="remember-me">Remember Me?</label>
+                <input type="checkbox" id="remember-me" name="remember-me" class="col-form-label"/>
+            </div>
+            <h3><a style="text-decoration: none" th:href="@{/register}">Create account</a></h3>
+            <div class="fs-4">
+                <button type="submit" class="btn btn-primary">Log in</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

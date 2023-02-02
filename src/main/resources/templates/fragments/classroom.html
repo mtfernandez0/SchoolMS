@@ -6,21 +6,27 @@
 </head>
 
 <body>
-<div th:fragment="static(classroom)">
-    <td th:text="${classroom.classroomName}"></td>
-    <td th:text="${classroom.capacity}"></td>
-    <td th:text="${classroom.available} ? 'Yes' : 'No'"></td>
-    <td th:text="${classroom.professor}"></td>
-    <td th:text="${classroom.availableAt}"></td>
-    <td>
-        <a th:href="@{/classroom/edit/{id}(id=${classroom.getClassroomName()})}">
-            <svg style="margin-right: 10px" width="34px" height="34px" viewBox="-2.4 -2.4 28.80 28.80" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0" transform="translate(0,0), scale(1)"><rect x="-2.4" y="-2.4" width="28.80" height="28.80" rx="8.352" fill="#59b9d9" strokewidth="0"></rect></g><g id="SVGRepo_iconCarrier"> <path d="M21 20.9998H13M2.5 21.4998L8.04927 19.3655C8.40421 19.229 8.58168 19.1607 8.74772 19.0716C8.8952 18.9924 9.0358 18.901 9.16804 18.7984C9.31692 18.6829 9.45137 18.5484 9.72028 18.2795L21 6.99982C22.1046 5.89525 22.1046 4.10438 21 2.99981C19.8955 1.89525 18.1046 1.89524 17 2.99981L5.72028 14.2795C5.45138 14.5484 5.31692 14.6829 5.20139 14.8318C5.09877 14.964 5.0074 15.1046 4.92823 15.2521C4.83911 15.4181 4.77085 15.5956 4.63433 15.9506L2.5 21.4998ZM2.5 21.4998L4.55812 16.1488C4.7054 15.7659 4.77903 15.5744 4.90534 15.4867C5.01572 15.4101 5.1523 15.3811 5.2843 15.4063C5.43533 15.4351 5.58038 15.5802 5.87048 15.8703L8.12957 18.1294C8.41967 18.4195 8.56472 18.5645 8.59356 18.7155C8.61877 18.8475 8.58979 18.9841 8.51314 19.0945C8.42545 19.2208 8.23399 19.2944 7.85107 19.4417L2.5 21.4998Z" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
-        </a>
-        <a th:href="@{/classroom/delete/{id}(id=${classroom.getClassroomName()})}">
-            <svg width="40px" height="40px" viewBox="-6 -6 72.00 72.00" xmlns="http://www.w3.org/2000/svg" fill="#000000" stroke="#000000" stroke-width="1.3199999999999998"><g id="SVGRepo_bgCarrier" stroke-width="0" transform="translate(8.400000000000002,8.400000000000002), scale(0.72)"><rect x="-6" y="-6" width="72.00" height="72.00" rx="36" fill="#ffffff" strokewidth="0"></rect></g><g id="SVGRepo_iconCarrier"><defs><style> .cls-1 { fill: #9f4c4c; fill-rule: evenodd; } </style></defs><path class="cls-1" d="M940,510a30,30,0,1,1,30-30A30,30,0,0,1,940,510Zm15-20.047A3.408,3.408,0,0,1,955,494.77l-0.221.22a3.42,3.42,0,0,1-4.833,0l-8.764-8.755a1.71,1.71,0,0,0-2.417,0l-8.741,8.747a3.419,3.419,0,0,1-4.836,0l-0.194-.193a3.408,3.408,0,0,1,.017-4.842l8.834-8.735a1.7,1.7,0,0,0,0-2.43l-8.831-8.725a3.409,3.409,0,0,1-.018-4.844l0.193-.193a3.413,3.413,0,0,1,2.418-1c0.944,0,3.255,1.835,3.872,2.455l7.286,7.287a1.708,1.708,0,0,0,2.417,0l8.764-8.748a3.419,3.419,0,0,1,4.832,0L955,465.243a3.408,3.408,0,0,1,0,4.818l-8.727,8.737a1.7,1.7,0,0,0,0,2.407Z" id="uncheck" transform="translate(-910 -450)"></path></g></svg>
-        </a>
-    </td>
-</div>
+    <div th:fragment="static(classroom)">
+        <td th:text="${classroom.classroomName}"></td>
+        <td th:text="${classroom.capacity}"></td>
+        <td th:text="${classroom.available} ? 'Yes' : 'No'"></td>
+        <td th:text="${classroom.professor}"></td>
+        <td th:text="${classroom.availableAt}"></td>
+        <div th:if="${isDirector}">
+            <td style="display: flex; justify-content: space-evenly; align-items: center">
+                <a th:href="@{/classroom/edit/{id}(id=${classroom.getClassroomName()})}">
+                    <img src="/static/img/edit.svg" alt="edit" th:src="@{/img/edit.svg}">
+                </a>
+                <form th:action="@{/classroom/delete}" th:method="delete">
+                    <input type="hidden" name="id" th:value="${classroom.classroomName}">
+                    <label>
+                        <input hidden="hidden" type="submit">
+                        <img style="margin-right: 10px; cursor: pointer" src="/static/img/delete.svg" th:src="@{/img/delete.svg}" alt="delete"/>
+                    </label>
+                </form>
+            </td>
+        </div>
+    </div>
 <div th:fragment="edit(classroom)">
     <form th:action="@{/classroom/{oldId}(oldId=${classroom.getClassroomName()})}" th:method="put">
         <td><label><input type="text" name="classroomName" th:value="${classroom.classroomName}" autofocus></label></td>
@@ -35,8 +41,8 @@
         <td><label><input type="text" name="availableAt" th:value="${classroom.availableAt}"></label></td>
         <td>
             <label>
-                <input class="btn" type="submit">
-                <svg style="cursor: pointer" width="40px" height="40px" viewBox="-2.4 -2.4 28.80 28.80" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0" transform="translate(0.7200000000000006,0.7200000000000006), scale(0.94)"><rect x="-2.4" y="-2.4" width="28.80" height="28.80" rx="6.624" fill="#69ae24" strokewidth="0"></rect></g><g id="SVGRepo_iconCarrier"> <g id="style=stroke"> <g id="check"> <path id="vector (Stroke)" fill-rule="evenodd" clip-rule="evenodd" d="M19.5303 7.21967C19.8232 7.51256 19.8232 7.98744 19.5303 8.28033L11.6112 16.1994C10.5373 17.2734 8.79607 17.2734 7.72212 16.1995L4.46967 12.947C4.17678 12.6541 4.17678 12.1792 4.46967 11.8863C4.76256 11.5934 5.23744 11.5934 5.53033 11.8863L8.78278 15.1388C9.27094 15.6269 10.0624 15.6269 10.5505 15.1388L18.4697 7.21967C18.7626 6.92678 19.2374 6.92678 19.5303 7.21967Z" fill="#000000"></path> </g> </g> </g></svg>
+                <input hidden="hidden" type="submit">
+                <img style="cursor: pointer" src="/static/img/save.svg" alt="save" th:src="@{/img/save.svg}">
             </label>
         </td>
     </form>
@@ -54,8 +60,8 @@
         <td><label><input type="text" name="availableAt" placeholder="available at"></label></td>
         <td>
             <label>
-                <input class="btn" type="submit">
-                <svg style="cursor: pointer" fill="#ffffff" width="40px" height="40px" viewBox="-12.16 -12.16 56.32 56.32" version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff" stroke-width="2.912"><g id="SVGRepo_bgCarrier" stroke-width="0" transform="translate(2.08,2.08), scale(0.87)"><rect x="-12.16" y="-12.16" width="56.32" height="56.32" rx="15.2064" fill="#3596b6" strokewidth="0"></rect></g><g id="SVGRepo_iconCarrier"> <title>plus</title> <path d="M30 15.25h-13.25v-13.25c0-0.414-0.336-0.75-0.75-0.75s-0.75 0.336-0.75 0.75v0 13.25h-13.25c-0.414 0-0.75 0.336-0.75 0.75s0.336 0.75 0.75 0.75v0h13.25v13.25c0 0.414 0.336 0.75 0.75 0.75s0.75-0.336 0.75-0.75v0-13.25h13.25c0.414 0 0.75-0.336 0.75-0.75s-0.336-0.75-0.75-0.75v0z"></path> </g></svg>
+                <input hidden="hidden" type="submit">
+                <img style="cursor: pointer" src="/static/img/add.svg" alt="add" th:src="@{/img/add.svg}">
             </label>
         </td>
     </form>

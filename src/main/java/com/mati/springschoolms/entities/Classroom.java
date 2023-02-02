@@ -1,6 +1,8 @@
 package com.mati.springschoolms.entities;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 
 import java.time.LocalTime;
 

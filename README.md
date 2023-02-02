@@ -12,3 +12,8 @@ to constantly improve the application and carry out tests with possible users.
 
 Initial version, Classroom Table showing information about each classroom in
 the school and allows CRUD operations on them.
+
+### VERSION 1.0.0
+
+Added login and register features with spring security.
+Only users with director role can modify entries in the classroom table;
