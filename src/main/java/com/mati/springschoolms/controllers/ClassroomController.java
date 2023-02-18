@@ -67,8 +67,8 @@ public class ClassroomController {
     }
 
     @PreAuthorize("hasAuthority('Director')")
-    @RequestMapping(value = "/classroom/delete/{id}")
-    public String deleteClassroom(@PathVariable String id){
+    @DeleteMapping(value = "/classroom/delete")
+    public String deleteClassroom(@RequestParam("id") String id){
         try {
             classroomService.deleteById(id);
         } catch (Exception e){

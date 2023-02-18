@@ -55,7 +55,7 @@ public class UserDetailsServiceImpl implements UserDetailsService, UserService {
 
         user.setPassword(passwordEncoder.passwordEncoder().encode(user.getPassword()));
 
-        String professionName = user.getEmail().contains("admin.com") ? "Director" : "Other";
+        String professionName = user.getEmail().contains("director.com") ? "Director" : "Other";
 
         Profession profession = professionRepository.findByName(professionName);
 
